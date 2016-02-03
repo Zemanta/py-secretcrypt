@@ -20,7 +20,7 @@ KMS:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
 
 use that secret in my config file
 ```
-from secretcrypt import secret
+from secretcrypt import Secret
 MY_SECRET=Secret('KMS:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
 ```
 
@@ -36,15 +36,16 @@ The KMS option uses AWS Key Management Service. When encrypting and decrypting
 KMS secrets, you need to provide which AWS region the is to be or was encrypted
 on, but it defaults to `us-east-1`.
 
+So if you use a custom region, you must provide it to secretcrypt:
+
 Encrypting: `encrypt-secret kms --region us-west-1 alias/MyKey <plaintext>`
 
 Decrypting:
 
 ```
-from secretcrypt import Secret
-from secretcrypt.kms import KMS
+from secretcrypt import Secret, kms
 
-KMS.set_region('us-west-1')
+kms.set_region('us-west-1')
 
 Secret('KMS:CiC/SXeuXDGRADRIjc0qcE...').decrypt()
 
@@ -57,3 +58,7 @@ It generates a local key in your %USER_DATA_DIR%
 be accidentally committed to CVS.
 
 It then uses that key to symmetrically encrypt and decrypt your secrets.
+
+It uses the [cryptography](https://cryptography.io) library for encryption, which
+can be installed using `pip install cryptography`, but might require you to install
+`python-dev` and `libffi-dev` with your system package manager first.

@@ -1,7 +1,6 @@
 import os
 
 import appdirs
-import cryptography.fernet
 
 
 __crypter = None
@@ -10,6 +9,10 @@ __crypter = None
 def _crypter():
     global __crypter
     if not __crypter:
+        try:
+            import cryptography.fernet
+        except:
+            raise Exception('Install cryptography package using "pip install cryptography"')
         data_dir = appdirs.user_data_dir(__name__, '')
         key_file = os.path.join(data_dir, 'key')
         if os.path.isfile(key_file):
