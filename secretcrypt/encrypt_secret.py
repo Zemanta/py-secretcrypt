@@ -14,22 +14,22 @@ from docopt import docopt
 from secretcrypt import Secret
 
 
-def encrypt_secret(cls, plaintext):
-    ciphertext = cls.encrypt(plaintext)
-    return Secret('%s:%s' % (cls.__name__, ciphertext))
+def encrypt_secret(module, plaintext):
+    ciphertext = module.encrypt(plaintext)
+    return Secret('%s:%s' % (module.__name__, ciphertext))
 
 
 def encrypt_secret_cmd():
     arguments = docopt(__doc__, options_first=True)
     if arguments['kms']:
-        from kms import KMS
-        KMS.set_region(arguments['--region'])
-        KMS.set_key_id(arguments['<key_id>'])
-        cls = KMS
+        import kms
+        kms.set_region(arguments['--region'])
+        kms.set_key_id(arguments['<key_id>'])
+        module = kms
     elif arguments['local']:
-        from local import Local
-        cls = Local
-    secret = encrypt_secret(cls, arguments['<plaintext>'])
+        import local
+        module = local
+    secret = encrypt_secret(module, arguments['<plaintext>'])
     return secret.secret
 
 if __name__ == '__main__':

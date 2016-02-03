@@ -16,8 +16,8 @@ from secretcrypt import Secret
 def decrypt_secret_cmd():
     arguments = docopt(__doc__, options_first=True)
     if arguments['--region']:
-        from kms import KMS
-        KMS.set_region(arguments['--region'])
+        import kms
+        kms.set_region(arguments['--region'])
     secret = Secret(arguments['<secret>'])
     return secret.decrypt()
 

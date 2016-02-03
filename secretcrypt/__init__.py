@@ -12,8 +12,7 @@ class Secret(object):
     def decrypt(self):
         class_name, ciphertext = self.secret.split(':')
         try:
-            crypter_module = importlib.import_module('.' + class_name.lower(), package=__name__)
-            crypter = getattr(crypter_module, class_name)
+            crypter = importlib.import_module(class_name.lower(), package=__name__)
             return crypter.decrypt(ciphertext)
         except Exception as e:
             exc_info = sys.exc_info()

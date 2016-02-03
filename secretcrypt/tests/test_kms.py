@@ -23,9 +23,9 @@ class TestLocal(unittest.TestCase):
 
     def test_encrypt(self):
         self.mock_kms_client.encrypt.return_value = dict(CiphertextBlob=self.ciphertext_blob)
-        kms.KMS.set_key_id(self.key)
-        kms.KMS.set_region(self.region)
-        ciphertext = kms.KMS.encrypt(self.plaintext)
+        kms.set_key_id(self.key)
+        kms.set_region(self.region)
+        ciphertext = kms.encrypt(self.plaintext)
         self.boto3_client.assert_called_with(
             'kms',
             region_name=self.region
@@ -38,8 +38,8 @@ class TestLocal(unittest.TestCase):
 
     def test_decrypt(self):
         self.mock_kms_client.decrypt.return_value = dict(Plaintext=self.plaintext)
-        kms.KMS.set_region(self.region)
-        plaintext = kms.KMS.decrypt(self.ciphertext)
+        kms.set_region(self.region)
+        plaintext = kms.decrypt(self.ciphertext)
         self.boto3_client.assert_called_with(
             'kms',
             region_name=self.region
