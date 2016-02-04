@@ -12,21 +12,21 @@ but you can't include that file in CVS because then your secret value would be e
 
 With **secretcrypt**, you can encrypt your secret using your AWS KMS master key aliased *MyKey*:
 
-```
+```bash
 $ encrypt-secret kms alias/MyKey VerySecretValue!
 KMS:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
 
 ```
 
 use that secret in my config file
-```
+```python
 from secretcrypt import Secret
 MY_SECRET=Secret('KMS:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
 ```
 
 and get the plaintext like
 
-```
+```python
 print MY_SECRET.decrypt()
 # VerySecretValue!
 ```
@@ -42,7 +42,7 @@ Encrypting: `encrypt-secret kms --region us-west-1 alias/MyKey <plaintext>`
 
 Decrypting:
 
-```
+```python
 from secretcrypt import Secret, kms
 
 kms.set_region('us-west-1')
