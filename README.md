@@ -8,20 +8,27 @@ For example, you have the following configuration file
 MY_SECRET=VerySecretValue!
 ```
 
-but you can't include that file in CVS because then your secret value would be exposed.
+but you can't include that file in VCS because then your secret value would be exposed.
 
 With **secretcrypt**, you can encrypt your secret using your AWS KMS master key aliased *MyKey*:
 
 ```bash
-$ encrypt-secret kms alias/MyKey VerySecretValue!
-KMS:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
+$ encrypt-secret kms alias/MyKey
+Enter plaintext: VerySecretValue! # enter
+kms:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
+
+# --- or --
+$ echo "VerySecretValue!" | encrypt-secret kms alias/MyKey  
+kms:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
+# only use piping when scripting, otherwise your secrets will be stored
+# in your shell's history!
 
 ```
 
 use that secret in my config file
 ```python
 from secretcrypt import Secret
-MY_SECRET=Secret('KMS:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
+MY_SECRET=Secret('kms:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
 ```
 
 and get the plaintext like
@@ -47,7 +54,7 @@ from secretcrypt import Secret, kms
 
 kms.set_region('us-west-1')
 
-Secret('KMS:CiC/SXeuXDGRADRIjc0qcE...').decrypt()
+Secret('kms:CiC/SXeuXDGRADRIjc0qcE...').decrypt()
 
 ```
 

@@ -10,9 +10,16 @@ class Secret(object):
         self.secret = secret
 
     def decrypt(self):
-        class_name, ciphertext = self.secret.split(':')
+        if ':' not in self.secret:
+            raise ValueError('Missing encryption module name')
+
+        module_name, ciphertext = self.secret.split(':')
         try:
-            crypter = importlib.import_module(class_name.lower(), package=__name__)
+            crypter = importlib.import_module('.' + module_name.lower(), package=__name__)
+        except ImportError as e:
+            raise ValueError("Invalid encryption module: %s" % e)
+
+        try:
             return crypter.decrypt(ciphertext)
         except Exception as e:
             exc_info = sys.exc_info()

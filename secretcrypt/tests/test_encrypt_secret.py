@@ -9,5 +9,5 @@ class TestEncryptCmd(unittest.TestCase):
         secret = encrypt_secret.encrypt_secret(mock_crypter, 'myplaintext').secret
         self.assertIn(':', secret)
         class_name, ciphertext = secret.split(':')
-        self.assertEqual(class_name, mock_crypter.__name__)
+        self.assertEqual(class_name, mock_crypter.__name__.split('.')[-1])
         self.assertEqual(ciphertext, 'ciphertext')

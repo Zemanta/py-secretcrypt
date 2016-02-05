@@ -1,22 +1,24 @@
 """
-Encrypted secrets.
+Encrypts secrets. Reads secrets as user input or from standard input.
 
 Usage:
-  encrypt-secret kms [--region=<region_name>] <key_id> <plaintext>
-  encrypt-secret local <plaintext>
+  encrypt-secret kms [--region=<region_name>] <key_id>
+  encrypt-secret local
 
 Options:
   --region=<region_name>    AWS Region Name [default: us-east-1]
 """
 from __future__ import print_function
 from docopt import docopt
+import sys
 
 from secretcrypt import Secret
 
 
 def encrypt_secret(module, plaintext):
     ciphertext = module.encrypt(plaintext)
-    return Secret('%s:%s' % (module.__name__, ciphertext))
+    module_name = module.__name__.split('.')[-1]
+    return Secret('%s:%s' % (module_name, ciphertext))
 
 
 def encrypt_secret_cmd():
@@ -29,7 +31,11 @@ def encrypt_secret_cmd():
     elif arguments['local']:
         import local
         module = local
-    secret = encrypt_secret(module, arguments['<plaintext>'])
+
+    # do not print prompt if input is being piped
+    prompt = 'Enter plaintext: ' if sys.stdin.isatty() else ''
+    plaintext = raw_input(prompt)
+    secret = encrypt_secret(module, plaintext)
     return secret.secret
 
 if __name__ == '__main__':
