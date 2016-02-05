@@ -33,7 +33,7 @@ def _crypter():
 
 
 def encrypt(plaintext):
-    return _crypter().encrypt(plaintext)
+    return _crypter().encrypt(plaintext), {}
 
 
 def decrypt(ciphertext):

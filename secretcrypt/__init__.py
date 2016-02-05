@@ -1,5 +1,6 @@
 import importlib
 import six
+from six.moves import urllib
 import sys
 
 
@@ -7,23 +8,36 @@ class Secret(object):
     """Represents an encrypted secret that can be decrypted on demand."""
 
     def __init__(self, secret):
-        self.secret = secret
+        tokens = secret.split(':')
+        if len(tokens) < 3:
+            raise ValueError('Malformed secret "%s"' % secret)
+
+        crypter_name = tokens[0]
+        try:
+            self._crypter = importlib.import_module('.' + crypter_name.lower(), package=__name__)
+        except ImportError as e:
+            raise ValueError('Invalid encryption module in secret "%s": %s' % (secret, e))
+
+        try:
+            self._decrypt_params = {}
+            if tokens[1]:
+                params = urllib.parse.parse_qs(tokens[1], strict_parsing=True)
+                self._decrypt_params = {k: v[0] for k, v in params.items()}
+        except ValueError as e:
+            raise ValueError('Invalid decryption parameters in secret "%s": %s' % (secret, e))
+
+        self._ciphertext = ':'.join(tokens[2:])
 
     def decrypt(self):
-        if ':' not in self.secret:
-            raise ValueError('Missing encryption module name')
-
-        module_name, ciphertext = self.secret.split(':')
         try:
-            crypter = importlib.import_module('.' + module_name.lower(), package=__name__)
-        except ImportError as e:
-            raise ValueError("Invalid encryption module: %s" % e)
-
-        try:
-            return crypter.decrypt(ciphertext)
+            return self._crypter.decrypt(self._ciphertext, **self._decrypt_params)
         except Exception as e:
             exc_info = sys.exc_info()
-            six.reraise(ValueError('Invalid secret "%s", error: %s' % (self.secret, e)), None, exc_info[2])
+            six.reraise(
+                ValueError('Invalid ciphertext "%s", error: %s' % (self._ciphertext, e)),
+                None,
+                exc_info[2]
+            )
 
     def __str__(self):
         """Redacted string representation."""

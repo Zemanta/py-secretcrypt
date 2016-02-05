@@ -19,6 +19,13 @@ class TestSecret(unittest.TestCase):
             raise Exception('Importing wrong module')
         mock_import_module.side_effect = mock_import_side_effect
 
-        secret = Secret('mock_crypter:myciphertext')
+        secret = Secret('mock_crypter:key=value&key2=value2:myciphertext')
+        self.assertEqual(secret._decrypt_params, dict(key='value', key2='value2'))
+        self.assertEqual(secret._ciphertext, 'myciphertext')
+
         secret.decrypt()
-        mock_crypter_module.decrypt.assert_called_with('myciphertext')
+        mock_crypter_module.decrypt.assert_called_with(
+            'myciphertext',
+            key='value',
+            key2='value2',
+        )
