@@ -3,6 +3,12 @@ import six
 from six.moves import urllib
 import sys
 
+CRYPTER_MODULES = [
+    'local',
+    'kms',
+    'mock_crypter',
+]
+
 
 class Secret(object):
     """Represents an encrypted secret that can be decrypted on demand."""
@@ -13,10 +19,14 @@ class Secret(object):
             raise ValueError('Malformed secret "%s"' % secret)
 
         crypter_name = tokens[0]
+        if crypter_name not in CRYPTER_MODULES:
+            raise ValueError(('Invalid encryption module in secret "%s": %s, ' +
+                             'not one of %s') % (secret, crypter_name, CRYPTER_MODULES))
         try:
             self._crypter = importlib.import_module('.' + crypter_name.lower(), package=__name__)
         except ImportError as e:
-            raise ValueError('Invalid encryption module in secret "%s": %s' % (secret, e))
+            raise ValueError(('Problem importing encryption module "%s", are ' +
+                             'you missing dependencies? %s') % (crypter_name, e))
 
         try:
             self._decrypt_params = {}
