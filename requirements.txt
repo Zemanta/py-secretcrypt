@@ -5,9 +5,7 @@ six==1.10.0
 boto3==1.2.3
 
 # local
-appdirs==1.4.0
-cffi==1.5.0
-cryptography==1.2.2
+pyaes==1.3.0
 
 # test
 mock==1.3.0

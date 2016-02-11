@@ -47,6 +47,7 @@ setup(
         'docopt==0.6.2',
         'six==1.10.0',
         'boto3==1.2.3',
+        'pyaes==1.3.0',
     ],
     tests_require=['tox', 'virtualenv'],
     cmdclass={'test': Tox},

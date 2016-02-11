@@ -56,7 +56,3 @@ It generates a local key in your %USER_DATA_DIR%
 be accidentally committed to CVS.
 
 It then uses that key to symmetrically encrypt and decrypt your secrets.
-
-It uses the [cryptography](https://cryptography.io) library for encryption, which
-can be installed using `pip install cryptography`, but might require you to install
-`python-dev` and `libffi-dev` with your system package manager first.
