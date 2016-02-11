@@ -18,11 +18,11 @@ def _key():
     key_file = os.path.join(data_dir, 'key')
 
     if os.path.isfile(key_file):
-        with open(key_file) as f:
-            __key = f.read()
+        with open(key_file, 'rb') as f:
+            __key = base64.b64decode(f.read())
             return __key
 
-    __key = os.urandom(16)
+    __key = base64.b64encode(os.urandom(16))
     try:
         os.makedirs(data_dir)
     except OSError as e:
@@ -48,7 +48,7 @@ def encrypt(plaintext):
     plaintext += six.int2byte(padding) * padding
     iv = os.urandom(16)
     aes = pyaes.AESModeOfOperationCBC(_key(), iv=iv)
-    ciphertext_blob = aes.encrypt(plaintext)
+    ciphertext_blob = aes.encrypt(six.binary_type(plaintext))
     return base64.b64encode(iv + ciphertext_blob), {}
 
 
@@ -58,5 +58,6 @@ def decrypt(ciphertext):
     ciphertext_blob = blob[16:]
     aes = pyaes.AESModeOfOperationCBC(_key(), iv=iv)
     plaintext = aes.decrypt(ciphertext_blob)
-    plaintext = plaintext[:-six.byte2int(plaintext[-1])]
+    unpadding = six.byte2int([plaintext[-1]])
+    plaintext = plaintext[:-unpadding]
     return plaintext

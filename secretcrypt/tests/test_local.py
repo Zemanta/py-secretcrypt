@@ -1,3 +1,4 @@
+import base64
 import mock
 import os
 import shutil
@@ -31,12 +32,12 @@ class TestLocal(unittest.TestCase):
 
     def test_key_loaded(self):
         with open(self.key_file, 'wb') as f:
-            f.write(os.urandom(16))
+            f.write(base64.b64encode(os.urandom(16)))
         with open(self.key_file) as f:
             with mock.patch.object(six.moves.builtins, 'open') as mock_open:
                 mock_open.return_value = f
                 local.encrypt(b'abc')
-                mock_open.assert_called_with(self.key_file)
+                mock_open.assert_called_with(self.key_file, 'rb')
 
     def test_encrypt_decrypt(self):
         plaintext = b'myplaintext'
