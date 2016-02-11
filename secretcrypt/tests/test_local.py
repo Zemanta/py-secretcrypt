@@ -6,8 +6,6 @@ import six
 from six.moves import reload_module
 import unittest
 
-import cryptography
-
 from secretcrypt import local
 
 
@@ -17,9 +15,9 @@ class TestLocal(unittest.TestCase):
         reload_module(local)
         self.tmpdir = tempfile.mkdtemp()
         self.key_file = os.path.join(self.tmpdir, 'key')
-        self.patcher = mock.patch('appdirs.user_data_dir')
-        mock_user_data_dir = self.patcher.start()
-        mock_user_data_dir.return_value = self.tmpdir
+        self.patcher = mock.patch('secretcrypt.local._key_dir')
+        mock_key_dir = self.patcher.start()
+        mock_key_dir.return_value = self.tmpdir
 
     def tearDown(self):
         self.patcher.stop()
@@ -33,7 +31,7 @@ class TestLocal(unittest.TestCase):
 
     def test_key_loaded(self):
         with open(self.key_file, 'wb') as f:
-            f.write(cryptography.fernet.Fernet.generate_key())
+            f.write(os.urandom(16))
         with open(self.key_file) as f:
             with mock.patch.object(six.moves.builtins, 'open') as mock_open:
                 mock_open.return_value = f
