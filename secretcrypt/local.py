@@ -39,7 +39,7 @@ def _key_dir():
     if sys.platform.startswith('darwin'):
         data_dir = os.path.expanduser('~/Library/Application Support')
     elif sys.platform in ['win32', 'cygwin']:
-        data_dir = '~\\AppData\\Local\\'
+        data_dir = os.path.expanduser('~\\AppData\\Local\\')
     return os.path.join(data_dir, "secretcrypt")
 
 
