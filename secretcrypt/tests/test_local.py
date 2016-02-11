@@ -42,5 +42,5 @@ class TestLocal(unittest.TestCase):
 
     def test_encrypt_decrypt(self):
         plaintext = b'myplaintext'
-        ciphertext = local.encrypt(plaintext)
-        self.assertEqual(plaintext, local.decrypt(ciphertext))
+        ciphertext, decrypt_params = local.encrypt(plaintext)
+        self.assertEqual(plaintext, local.decrypt(ciphertext, **decrypt_params))

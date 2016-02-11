@@ -15,11 +15,11 @@ With **secretcrypt**, you can encrypt your secret using your AWS KMS master key 
 ```bash
 $ encrypt-secret kms alias/MyKey
 Enter plaintext: VerySecretValue! # enter
-kms:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
+kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
 
 # --- or --
 $ echo "VerySecretValue!" | encrypt-secret kms alias/MyKey  
-kms:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
+kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
 # only use piping when scripting, otherwise your secrets will be stored
 # in your shell's history!
 
@@ -28,7 +28,7 @@ kms:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
 use that secret in my config file
 ```python
 from secretcrypt import Secret
-MY_SECRET=Secret('kms:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
+MY_SECRET=Secret('kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
 ```
 
 and get the plaintext like
@@ -45,17 +45,8 @@ on, but it defaults to `us-east-1`.
 
 So if you use a custom region, you must provide it to secretcrypt:
 
-Encrypting: `encrypt-secret kms --region us-west-1 alias/MyKey <plaintext>`
-
-Decrypting:
-
-```python
-from secretcrypt import Secret, kms
-
-kms.set_region('us-west-1')
-
-Secret('kms:CiC/SXeuXDGRADRIjc0qcE...').decrypt()
-
+```bash
+encrypt-secret kms --region us-west-1 alias/MyKey
 ```
 
 ## Local encryption
