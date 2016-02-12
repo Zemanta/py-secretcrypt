@@ -1,8 +1,8 @@
-# secretcrypt
+# py-secretcrypt
 
 **WARNING**: this software is in alpha state, use with caution.
 
-Utility for keeping your secrets encrypted.
+Utility for keeping your secrets encrypted. Also has a [Go version](https://github.com/Zemanta/go-secretcrypt).
 
 For example, you have the following configuration file
 
