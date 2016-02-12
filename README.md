@@ -1,5 +1,7 @@
 # secretcrypt
 
+**WARNING**: this software is in alpha state, use with caution.
+
 Utility for keeping your secrets encrypted.
 
 For example, you have the following configuration file
