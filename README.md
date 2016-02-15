@@ -1,4 +1,6 @@
-# py-secretcrypt
+# py-secretcrypt 
+
+[![Circle CI](https://circleci.com/gh/Zemanta/py-secretcrypt.svg?style=svg)](https://circleci.com/gh/Zemanta/py-secretcrypt)
 
 **WARNING**: this software is in alpha state, use with caution.
 
