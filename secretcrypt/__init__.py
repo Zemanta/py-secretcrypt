@@ -40,7 +40,9 @@ class Secret(object):
 
     def decrypt(self):
         try:
-            return self._crypter.decrypt(self._ciphertext, **self._decrypt_params)
+            return six.text_type(
+                self._crypter.decrypt(self._ciphertext, **self._decrypt_params)
+            )
         except Exception as e:
             exc_info = sys.exc_info()
             six.reraise(
