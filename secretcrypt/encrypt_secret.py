@@ -4,6 +4,7 @@ Encrypts secrets. Reads secrets as user input or from standard input.
 Usage:
   encrypt-secret kms [--region=<region_name>] <key_id>
   encrypt-secret local
+  encrypt-secret plain
 
 Options:
   --region=<region_name>    AWS Region Name [default: us-east-1]
@@ -37,6 +38,9 @@ def encrypt_secret_cmd():
     elif arguments['local']:
         import local
         module = local
+    elif arguments['plain']:
+        import plain
+        module = plain
 
     # do not print prompt if input is being piped
     prompt = 'Enter plaintext: ' if sys.stdin.isatty() else ''

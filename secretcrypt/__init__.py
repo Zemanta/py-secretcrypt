@@ -6,6 +6,7 @@ import sys
 CRYPTER_MODULES = [
     'local',
     'kms',
+    'plain',
     'mock_crypter',
 ]
 
