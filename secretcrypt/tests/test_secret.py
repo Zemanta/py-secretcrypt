@@ -29,3 +29,7 @@ class TestSecret(unittest.TestCase):
             key='value',
             key2='value2',
         )
+
+    def test_decrypt_plain(self):
+        secret = Secret('plain::mypass')
+        self.assertEqual('mypass', secret.decrypt())

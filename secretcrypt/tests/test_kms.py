@@ -18,6 +18,7 @@ class TestLocal(unittest.TestCase):
         self.key = 'mykey'
         self.region = 'myregion'
         self.plaintext = 'myplaintext'
+        self.plaintext_bytes = b'myplaintext'
         self.ciphertext_blob = b'abc'
         self.ciphertext = base64.b64encode(self.ciphertext_blob)
 
@@ -47,13 +48,13 @@ class TestLocal(unittest.TestCase):
         )
         self.mock_kms_client.encrypt.assert_called_with(
             KeyId=self.key,
-            Plaintext=self.plaintext
+            Plaintext=self.plaintext_bytes
         )
         self.assertEqual(ciphertext, self.ciphertext)
         self.assertEqual(decrypt_params, dict(region=self.region))
 
     def test_decrypt(self):
-        self.mock_kms_client.decrypt.return_value = dict(Plaintext=self.plaintext)
+        self.mock_kms_client.decrypt.return_value = dict(Plaintext=self.plaintext_bytes)
         plaintext = kms.decrypt(self.ciphertext, self.region)
         self.boto3_client.assert_called_with(
             'kms',

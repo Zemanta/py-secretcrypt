@@ -26,7 +26,7 @@ class TestLocal(unittest.TestCase):
 
     @mock.patch('os.makedirs')
     def test_key_created(self, os_makedirs):
-        local.encrypt(b'abc')
+        local.encrypt('abc')
         os_makedirs.assert_called_with(self.tmpdir)
         self.assertTrue(os.path.isfile(self.key_file))
 
@@ -36,10 +36,10 @@ class TestLocal(unittest.TestCase):
         with open(self.key_file) as f:
             with mock.patch.object(six.moves.builtins, 'open') as mock_open:
                 mock_open.return_value = f
-                local.encrypt(b'abc')
+                local.encrypt('abc')
                 mock_open.assert_called_with(self.key_file, 'rb')
 
     def test_encrypt_decrypt(self):
-        plaintext = b'myplaintext'
+        plaintext = 'myplaintext'
         ciphertext, decrypt_params = local.encrypt(plaintext)
         self.assertEqual(plaintext, local.decrypt(ciphertext, **decrypt_params))

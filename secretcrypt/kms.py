@@ -16,7 +16,7 @@ def _kms_client(region):
 def encrypt(plaintext, region, key_id):
     ciphertext_blob = _kms_client(region).encrypt(
         KeyId=key_id,
-        Plaintext=plaintext
+        Plaintext=plaintext.encode('utf-8')
     )['CiphertextBlob']
     return base64.b64encode(ciphertext_blob), dict(region=region)
 
@@ -24,4 +24,4 @@ def encrypt(plaintext, region, key_id):
 def decrypt(ciphertext, region):
     return _kms_client(region).decrypt(
         CiphertextBlob=base64.b64decode(ciphertext)
-    )['Plaintext']
+    )['Plaintext'].decode('utf-8')

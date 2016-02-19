@@ -44,6 +44,7 @@ def _key_dir():
 
 
 def encrypt(plaintext):
+    plaintext = plaintext.encode('utf-8')
     padding = 16 - len(plaintext) % 16
     plaintext += six.int2byte(padding) * padding
     iv = os.urandom(16)
@@ -60,4 +61,4 @@ def decrypt(ciphertext):
     plaintext = aes.decrypt(ciphertext_blob)
     unpadding = six.byte2int([plaintext[-1]])
     plaintext = plaintext[:-unpadding]
-    return plaintext
+    return plaintext.decode('utf-8')
