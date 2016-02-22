@@ -24,7 +24,8 @@ class TestSecret(unittest.TestCase):
         self.assertEqual(secret._ciphertext, 'myciphertext')
 
         secret.decrypt()
-        mock_crypter_module.decrypt.assert_called_with(
+        secret.decrypt()
+        mock_crypter_module.decrypt.assert_called_once_with(
             'myciphertext',
             key='value',
             key2='value2',
