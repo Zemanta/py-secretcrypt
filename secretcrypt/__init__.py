@@ -38,10 +38,17 @@ class Secret(object):
             raise ValueError('Invalid decryption parameters in secret "%s": %s' % (secret, e))
 
         self._ciphertext = ':'.join(tokens[2:])
+        self._cached = False
+        self.__plaintext = ''
 
     def decrypt(self):
         try:
-            return self._crypter.decrypt(self._ciphertext, **self._decrypt_params)
+            if self._cached:
+                return self.__plaintext
+            plaintext = self._crypter.decrypt(self._ciphertext, **self._decrypt_params)
+            self.__plaintext = plaintext
+            self._cached = True
+            return plaintext
         except Exception as e:
             exc_info = sys.exc_info()
             six.reraise(
