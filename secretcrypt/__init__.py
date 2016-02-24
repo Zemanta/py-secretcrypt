@@ -15,6 +15,12 @@ class Secret(object):
     """Represents an encrypted secret that can be decrypted on demand."""
 
     def __init__(self, secret):
+        if len(secret) == 0:
+            # empty secret object
+            self._cached = True
+            self.__plaintext = ''
+            return
+
         tokens = secret.split(':')
         if len(tokens) < 3:
             raise ValueError('Malformed secret "%s"' % secret)
