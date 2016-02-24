@@ -17,7 +17,7 @@ class TestLocal(unittest.TestCase):
 
         self.key = 'mykey'
         self.region = 'myregion'
-        self.plaintext = 'myplaintext'
+        self.plaintext = b'myplaintext'
         self.plaintext_bytes = b'myplaintext'
         self.ciphertext_blob = b'abc'
         self.ciphertext = base64.b64encode(self.ciphertext_blob)

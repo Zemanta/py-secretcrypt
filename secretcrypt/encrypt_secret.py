@@ -2,12 +2,13 @@
 Encrypts secrets. Reads secrets as user input or from standard input.
 
 Usage:
-  encrypt-secret kms [--region=<region_name>] <key_id>
-  encrypt-secret local
-  encrypt-secret plain
-
+  encrypt-secret [options] kms [--region=<region_name>] <key_id>
+  encrypt-secret [options] local
+  encrypt-secret [options] plain
 Options:
+
   --region=<region_name>    AWS Region Name [default: us-east-1]
+  --multiline               Multiline input (read stdin bytes until EOF)
 """
 from __future__ import print_function
 from docopt import docopt
@@ -42,9 +43,14 @@ def encrypt_secret_cmd():
         import plain
         module = plain
 
-    # do not print prompt if input is being piped
-    prompt = 'Enter plaintext: ' if sys.stdin.isatty() else ''
-    plaintext = raw_input(prompt)
+    if arguments['--multiline']:
+        plaintext = sys.stdin.read()
+    else:
+        # do not print prompt if input is being piped
+        if sys.stdin.isatty():
+            print('Enter plaintext: ', file=sys.stderr)
+        plaintext = sys.stdin.readline()
+
     secret = encrypt_secret(module, plaintext, encrypt_params)
     return secret
 
