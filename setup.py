@@ -25,13 +25,12 @@ class Tox(TestCommand):
         errno = tox.cmdline(args=args)
         sys.exit(errno)
 
-
 setup(
     name='secretcrypt',
     packages=['secretcrypt'],
-    version='0.1',
+    version='0.2',
     description='Encrypt project secrets',
-    author='Nejc Saje',
+    author='Nejc Saje, Zemanta',
     author_email='nejc@saje.info',
     url='https://github.com/Zemanta/secretcrypt',
     download_url='https://github.com/Zemanta/secretcrypt/tarball/0.1',
