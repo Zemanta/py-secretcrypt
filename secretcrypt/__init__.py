@@ -11,14 +11,17 @@ CRYPTER_MODULES = [
 ]
 
 
-class Secret(object):
-    """Represents an encrypted secret that can be decrypted on demand."""
+class StrictSecret(object):
+    """Represents an encrypted secret that can be decrypted on demand.
+
+    Decrypting this secret may incur a side-effect such as a call to a remote
+    service for decryption.
+    """
 
     def __init__(self, secret):
         if len(secret) == 0:
             # empty secret object
-            self._cached = True
-            self.__plaintext = ''
+            self._crypter = None
             return
 
         tokens = secret.split(':')
@@ -44,16 +47,16 @@ class Secret(object):
             raise ValueError('Invalid decryption parameters in secret "%s": %s' % (secret, e))
 
         self._ciphertext = ':'.join(tokens[2:])
-        self._cached = False
-        self.__plaintext = ''
 
     def decrypt(self):
+        """Decrypt decrypts the secret and returns the plaintext.
+
+        Calling decrypt() may incur side effects such as a call to a remote service for decryption.
+        """
+        if not self._crypter:
+            return b''
         try:
-            if self._cached:
-                return self.__plaintext
             plaintext = self._crypter.decrypt(self._ciphertext, **self._decrypt_params)
-            self.__plaintext = plaintext
-            self._cached = True
             return plaintext
         except Exception as e:
             exc_info = sys.exc_info()
@@ -62,6 +65,33 @@ class Secret(object):
                 None,
                 exc_info[2]
             )
+
+    def __str__(self):
+        """Redacted string representation."""
+        return '<redacted>'
+
+    def __repr__(self):
+        """Redacted repr representation."""
+        return '<redacted>'
+
+
+class Secret(object):
+    """Represents a secret that is eagerly decrypted on object creation.
+
+    After that, using this secret does not incur any side effects.
+    """
+
+    def __init__(self, secret):
+        strict_secret = StrictSecret(secret)
+        self.__plaintext = None
+        self.__plaintext = strict_secret.decrypt()
+
+    def get(self):
+        """Return the secret in plain text.
+
+        Calling get() does not incur any side effects.
+        """
+        return self.__plaintext
 
     def __str__(self):
         """Redacted string representation."""
