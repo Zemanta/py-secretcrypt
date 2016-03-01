@@ -49,7 +49,7 @@ def encrypt_secret_cmd():
         # do not print prompt if input is being piped
         if sys.stdin.isatty():
             print('Enter plaintext: ', end="", file=sys.stderr),
-        plaintext = sys.stdin.readline()
+        plaintext = sys.stdin.readline().rstrip('\n')
 
     secret = encrypt_secret(module, plaintext, encrypt_params)
     print(secret)
