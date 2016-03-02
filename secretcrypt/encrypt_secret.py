@@ -13,6 +13,7 @@ Options:
 from __future__ import print_function
 from docopt import docopt
 from six.moves import urllib
+import os
 import sys
 
 

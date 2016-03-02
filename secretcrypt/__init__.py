@@ -46,7 +46,10 @@ class StrictSecret(object):
         except ValueError as e:
             raise ValueError('Invalid decryption parameters in secret "%s": %s' % (secret, e))
 
-        self._ciphertext = ':'.join(tokens[2:])
+        ciphertext = ':'.join(tokens[2:])
+        if isinstance(ciphertext, six.text_type):
+            ciphertext = ciphertext.encode('utf-8')  # convert to bytes
+        self._ciphertext = ciphertext
 
     def decrypt(self):
         """Decrypt decrypts the secret and returns the plaintext.

@@ -21,19 +21,19 @@ class TestSecret(unittest.TestCase):
 
         secret = StrictSecret('mock_crypter:key=value&key2=value2:myciphertext')
         self.assertEqual(secret._decrypt_params, dict(key='value', key2='value2'))
-        self.assertEqual(secret._ciphertext, 'myciphertext')
+        self.assertEqual(secret._ciphertext, b'myciphertext')
 
         secret.decrypt()
         secret.decrypt()
         mock_crypter_module.decrypt.assert_called_with(
-            'myciphertext',
+            b'myciphertext',
             key='value',
             key2='value2',
         )
 
     def test_decrypt_plain(self):
         secret = StrictSecret('plain::mypass')
-        self.assertEqual('mypass', secret.decrypt())
+        self.assertEqual(b'mypass', secret.decrypt())
 
     @mock.patch('importlib.import_module')
     def test_eager_decrypt(self, mock_import_module):
@@ -50,7 +50,7 @@ class TestSecret(unittest.TestCase):
 
         secret = Secret('mock_crypter:key=value&key2=value2:myciphertext')
         mock_crypter_module.decrypt.assert_called_with(
-            'myciphertext',
+            b'myciphertext',
             key='value',
             key2='value2',
         )
