@@ -51,7 +51,7 @@ class StrictSecret(object):
             ciphertext = ciphertext.encode('utf-8')  # convert to bytes
         self._ciphertext = ciphertext
 
-    def decrypt(self, encoding='utf-8'):
+    def decrypt(self):
         """Decrypt decrypts the secret and returns the plaintext.
 
         Calling decrypt() may incur side effects such as a call to a remote service for decryption.
@@ -60,8 +60,6 @@ class StrictSecret(object):
             return b''
         try:
             plaintext = self._crypter.decrypt(self._ciphertext, **self._decrypt_params)
-            if encoding:
-                return plaintext.decode(encoding)
             return plaintext
         except Exception as e:
             exc_info = sys.exc_info()
@@ -88,15 +86,13 @@ class Secret(object):
 
     def __init__(self, secret):
         self.__plaintext_bytes = None
-        self.__plaintext_bytes = StrictSecret(secret).decrypt(encoding=None)
+        self.__plaintext_bytes = StrictSecret(secret).decrypt()
 
-    def get(self, encoding='utf-8'):
+    def get(self):
         """Return the secret in plain text.
 
         Calling get() does not incur any side effects.
         """
-        if encoding:
-            return self.__plaintext_bytes.decode(encoding)
         return self.__plaintext_bytes
 
     def __str__(self):

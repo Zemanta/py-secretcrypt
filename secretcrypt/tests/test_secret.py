@@ -33,7 +33,7 @@ class TestSecret(unittest.TestCase):
 
     def test_decrypt_plain(self):
         secret = StrictSecret('plain::mypass')
-        self.assertEqual('mypass', secret.decrypt())
+        self.assertEqual(b'mypass', secret.decrypt())
 
     @mock.patch('importlib.import_module')
     def test_eager_decrypt(self, mock_import_module):
@@ -56,10 +56,5 @@ class TestSecret(unittest.TestCase):
         )
         mock_crypter_module.reset_mock()
         plaintext = secret.get()
-        self.assertEqual('plaintext', plaintext)
+        self.assertEqual(b'plaintext', plaintext)
         mock_crypter_module.assert_not_called()
-
-    # def test_encoding(self):
-    #     plaintext = '?\x9a\xc4\xea\xb4\xf5\xc3\xb7\xc4\x9d\xec)C\x94i\x07\x1a&\xf3\x1e2\xdd\x95c[=\xb9\xc7c\xef1\x12'
-    #     s = Secret('plain::' + plaintext)
-    #     self.assertEqual(s.get(encoding=None), plaintext)
