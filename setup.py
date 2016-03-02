@@ -25,17 +25,24 @@ class Tox(TestCommand):
         errno = tox.cmdline(args=args)
         sys.exit(errno)
 
+with open('README.rst') as f:
+    readme = f.read()
+
+with open('HISTORY.rst') as f:
+    history = f.read()
+history = history.replace(".. :changelog:", "")
+
 setup(
     name='secretcrypt',
     packages=['secretcrypt'],
-    version='0.2',
+    version='0.3',
     description='Encrypt project secrets',
+    long_description=readme + '\n\n' + history,
     author='Nejc Saje, Zemanta',
     author_email='nejc@saje.info',
     url='https://github.com/Zemanta/secretcrypt',
     download_url='https://github.com/Zemanta/secretcrypt/tarball/0.1',
     keywords=['secret', 'encrypt', 'decrypt', 'settings'],
-    classifiers=[],
     entry_points={
         'console_scripts': [
             'encrypt-secret = secretcrypt.encrypt_secret:encrypt_secret_cmd',
@@ -50,4 +57,12 @@ setup(
     ],
     tests_require=['tox', 'virtualenv'],
     cmdclass={'test': Tox},
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Topic :: Security :: Cryptography',
+    ],
 )
