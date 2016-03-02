@@ -44,11 +44,13 @@ def _key_dir():
 
 
 def encrypt(plaintext):
-    padding = 16 - len(plaintext) % 16
-    plaintext += six.int2byte(padding) * padding
+    # padding = 16 - len(plaintext) % 16
+    # plaintext += six.int2byte(padding) * padding
     iv = os.urandom(16)
     aes = pyaes.AESModeOfOperationCBC(_key(), iv=iv)
-    ciphertext_blob = aes.encrypt(six.binary_type(plaintext))
+    encrypter = pyaes.Encrypter(aes)
+    ciphertext_blob = encrypter.feed(plaintext)
+    ciphertext_blob += encrypter.feed()  # flush
     return base64.b64encode(iv + ciphertext_blob), {}
 
 
@@ -57,7 +59,10 @@ def decrypt(ciphertext):
     iv = blob[:16]
     ciphertext_blob = blob[16:]
     aes = pyaes.AESModeOfOperationCBC(_key(), iv=iv)
-    plaintext = aes.decrypt(ciphertext_blob)
-    unpadding = six.byte2int([plaintext[-1]])
-    plaintext = plaintext[:-unpadding]
+    decrypter = pyaes.Decrypter(aes)
+    plaintext = decrypter.feed(ciphertext_blob)
+    plaintext += decrypter.feed()  # flush
+    # plaintext = aes.decrypt(ciphertext_blob)
+    # unpadding = six.byte2int([plaintext[-1]])
+    # plaintext = plaintext[:-unpadding]
     return plaintext
