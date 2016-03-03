@@ -10,7 +10,7 @@ version <https://github.com/Zemanta/go-secretcrypt>`__.
 
 For example, you have the following configuration file
 
-::
+.. code:: python
 
     DB_PASSWORD=VerySecretValue!
 
