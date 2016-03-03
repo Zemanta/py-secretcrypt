@@ -12,7 +12,7 @@ For example, you have the following configuration file
 
 ::
 
-    MY_SECRET=VerySecretValue!
+    DB_PASSWORD=VerySecretValue!
 
 but you can't include that file in VCS because then your secret value
 would be exposed.
@@ -22,28 +22,23 @@ master key aliased *MyKey*:
 
 .. code:: bash
 
-    $ encrypt-secret kms alias/MyKey
+    $ encrypt-secret kms alias/Z1secrets
     Enter plaintext: VerySecretValue! # enter
     kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
 
-    # --- or --
-    $ echo "VerySecretValue!" | encrypt-secret kms alias/MyKey  
-    kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE... # shortened for brevity
-    # only use piping when scripting, otherwise your secrets will be stored
-    # in your shell's history!
 
 use that secret in my config file
 
 .. code:: python
 
     from secretcrypt import Secret
-    MY_SECRET=Secret('kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
+    DB_PASSWORD=Secret('kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
 
 and get the plaintext like
 
 .. code:: python
 
-    print MY_SECRET.get()
+    print DB_PASSWORD.get()
     # VerySecretValue!
 
 If you are using very sensitive secrets, you can ensure the plaintext
@@ -53,13 +48,13 @@ version:
 .. code:: python
 
     from secretcrypt import StrictSecret
-    MY_SECRET=StrictSecret('kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
+    DB_PASSWORD=StrictSecret('kms:region=us-east-1:CiC/SXeuXDGRADRIjc0qcE...')  # shortened for brevity
 
 and get the plaintext like
 
 .. code:: python
 
-    print MY_SECRET.decrypt()
+    print DB_PASSWORD.decrypt()
     # VerySecretValue!
 
 KMS
