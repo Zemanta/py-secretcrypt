@@ -9,7 +9,7 @@ class TestEncryptCmd(unittest.TestCase):
     def test_encrypt(self):
         secret = encrypt_secret.encrypt_secret(
             mock_crypter,
-            'myplaintext',
+            b'myplaintext',
             dict(my_decrypt_param='abc')
         )
         self.assertEqual('mock_crypter:my_decrypt_param=abc:ciphertext',

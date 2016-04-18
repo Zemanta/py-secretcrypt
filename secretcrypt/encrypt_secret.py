@@ -22,7 +22,7 @@ def encrypt_secret(module, plaintext, encrypt_params):
     module_name = module.__name__.split('.')[-1]
     return '{module_name}:{decrypt_params}:{ciphertext}'.format(
         module_name=module_name,
-        ciphertext=ciphertext,
+        ciphertext=ciphertext.decode('utf-8'),
         decrypt_params=urllib.parse.urlencode(decrypt_params),
     )
 
@@ -31,17 +31,17 @@ def encrypt_secret_cmd():
     arguments = docopt(__doc__, options_first=True)
     encrypt_params = dict()
     if arguments['kms']:
-        import kms
+        from secretcrypt import kms
         encrypt_params = dict(
             region=arguments['--region'],
             key_id=arguments['<key_id>'],
         )
         module = kms
     elif arguments['local']:
-        import local
+        from secretcrypt import local
         module = local
     elif arguments['plain']:
-        import plain
+        from secretcrypt import plain
         module = plain
 
     if arguments['--multiline']:
@@ -50,8 +50,9 @@ def encrypt_secret_cmd():
         # do not print prompt if input is being piped
         if sys.stdin.isatty():
             print('Enter plaintext: ', end="", file=sys.stderr),
+            sys.stderr.flush()
         stdin = os.fdopen(sys.stdin.fileno(), 'rb', 0)
-        plaintext = stdin.readline().rstrip('\n')
+        plaintext = stdin.readline().rstrip(b'\n')
 
     secret = encrypt_secret(module, plaintext, encrypt_params)
     print(secret)
