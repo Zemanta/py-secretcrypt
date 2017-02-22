@@ -35,7 +35,7 @@ history = history.replace(".. :changelog:", "")
 setup(
     name='secretcrypt',
     packages=['secretcrypt'],
-    version='0.4.2',
+    version='0.4.3',
     description='Encrypt project secrets',
     long_description=readme + '\n\n' + history,
     author='Nejc Saje, Zemanta',
@@ -50,10 +50,10 @@ setup(
         ],
     },
     install_requires=[
-        'docopt==0.6.2',
-        'six==1.10.0',
-        'boto3==1.2.3',
-        'pyaes==1.3.0',
+        'docopt>=0.6.2',
+        'six>=1.10.0',
+        'boto3>=1.4',
+        'pyaes>=1.6.0',
     ],
     tests_require=['tox', 'virtualenv'],
     cmdclass={'test': Tox},
