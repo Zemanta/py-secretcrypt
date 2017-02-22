@@ -13,7 +13,7 @@ from secretcrypt import StrictSecret
 def decrypt_secret_cmd():
     arguments = docopt(__doc__, options_first=True)
     secret = StrictSecret(arguments['<secret>'])
-    return secret.decrypt().decode('utf-8')
+    print(secret.decrypt().decode('utf-8'))
 
 if __name__ == '__main__':
-    print(decrypt_secret_cmd())
+    decrypt_secret_cmd()
