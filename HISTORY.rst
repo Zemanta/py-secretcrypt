@@ -3,6 +3,12 @@
 History
 -------
 
+0.9.1 (2017-03-28)
+++++++++++++++++++
+
+* Python3 local module fixed issue with utf-8
+* unpinned dependencies
+
 0.4 (2016-03-02)
 ++++++++++++++++++
 
