@@ -2,6 +2,7 @@ py-secretcrypt
 ==============
 
 |Circle CI|
+|Codecov|
 
 Utility for keeping your secrets encrypted. Also has a `Go
 version <https://github.com/Zemanta/go-secretcrypt>`__.
@@ -85,3 +86,5 @@ It then uses that key to symmetrically encrypt and decrypt your secrets.
 
 .. |Circle CI| image:: https://circleci.com/gh/Zemanta/py-secretcrypt.svg?style=svg
    :target: https://circleci.com/gh/Zemanta/py-secretcrypt
+.. |Codecov| image:: https://codecov.io/gh/Zemanta/py-secretcrypt/branch/master/graph/badge.svg
+  :target: https://codecov.io/gh/Zemanta/py-secretcrypt
