@@ -5,8 +5,8 @@ Usage:
   encrypt-secret [options] kms [--region=<region_name>] <key_id>
   encrypt-secret [options] local
   encrypt-secret [options] plain
-Options:
 
+Options:
   --region=<region_name>    AWS Region Name [default: us-east-1]
   --multiline               Multiline input (read stdin bytes until EOF)
 """
