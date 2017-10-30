@@ -54,11 +54,12 @@ setup(
         'six>=1.10.0',
         'boto3>=1.4',
         'pyaes>=1.6.0',
+        'pyscrypt>=1.6.2',
     ],
     tests_require=['tox', 'virtualenv'],
     cmdclass={'test': Tox},
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 2.7',
