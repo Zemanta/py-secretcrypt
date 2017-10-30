@@ -7,6 +7,7 @@ CRYPTER_MODULES = [
     'local',
     'kms',
     'plain',
+    'password',
     'mock_crypter',
 ]
 

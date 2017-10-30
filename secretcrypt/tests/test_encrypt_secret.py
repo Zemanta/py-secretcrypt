@@ -3,7 +3,7 @@ import sys
 import os
 import unittest
 
-from secretcrypt import encrypt_secret, mock_crypter, kms, plain, local
+from secretcrypt import encrypt_secret, mock_crypter, kms, plain, local, password
 
 
 class TestEncryptHelper(unittest.TestCase):
@@ -57,6 +57,16 @@ class TestEncryptCmd(unittest.TestCase):
             encrypt_secret.encrypt_secret_cmd()
             self.mock_encrypt_secret.assert_called_once_with(
                 local,
+                b'myplaintext',
+                dict()
+            )
+
+    def test_encrypt_password(self):
+        with mock.patch.object(sys, 'argv', ['encrypt-secret', 'password']):
+            self.mock_stdin.readline.return_value = b'myplaintext\n'
+            encrypt_secret.encrypt_secret_cmd()
+            self.mock_encrypt_secret.assert_called_once_with(
+                password,
                 b'myplaintext',
                 dict()
             )

@@ -5,6 +5,7 @@ Usage:
   encrypt-secret [options] kms [--region=<region_name>] <key_id>
   encrypt-secret [options] local
   encrypt-secret [options] plain
+  encrypt-secret [options] password
 
 Options:
   --region=<region_name>    AWS Region Name [default: us-east-1]
@@ -43,6 +44,9 @@ def encrypt_secret_cmd():
     elif arguments['plain']:
         from secretcrypt import plain
         module = plain
+    elif arguments['password']:
+        from secretcrypt import password
+        module = password
 
     if arguments['--multiline']:
         plaintext = sys.stdin.read()
