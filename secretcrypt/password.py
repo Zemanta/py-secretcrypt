@@ -3,12 +3,13 @@ import base64
 import os
 
 import pyscrypt
+from six.moves import input
 
 from secretcrypt import base_aes
 
 
 def _get_key_salt(salt=None):
-    password = raw_input('Enter password: ')
+    password = input('Enter password: ').encode()
     if not salt:
         salt = base64.b64encode(os.urandom(16))
     key = pyscrypt.hash(
