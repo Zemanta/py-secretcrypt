@@ -35,7 +35,7 @@ history = history.replace(".. :changelog:", "")
 setup(
     name='secretcrypt',
     packages=['secretcrypt'],
-    version='1.0.0',
+    version='1.0.1.dev0',
     description='Encrypt project secrets',
     long_description=readme + '\n\n' + history,
     author='Nejc Saje, Zemanta',
