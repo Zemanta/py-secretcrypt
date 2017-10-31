@@ -3,7 +3,7 @@
 History
 -------
 
-1.0.0-dev (2017-10-30)
+1.0.0 (2017-10-31)
 ++++++++++++++++++
 
 * added password encryption/decryption
