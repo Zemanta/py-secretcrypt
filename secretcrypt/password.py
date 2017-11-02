@@ -1,15 +1,15 @@
 from __future__ import print_function
 import base64
 import os
+import getpass
 
 import pyscrypt
-from six.moves import input
 
 from secretcrypt import base_aes
 
 
 def _get_key_salt(salt=None):
-    password = input('Enter password: ').encode()
+    password = getpass.getpass('Enter password: ').encode()
     if not salt:
         salt = base64.b64encode(os.urandom(16))
     key = pyscrypt.hash(
