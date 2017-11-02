@@ -3,7 +3,7 @@
 History
 -------
 
-1.0.3 (unreleased)
+1.0.3 (2017-11-02)
 ++++++++++++++++++
 
 - reverted scrypt parameter changes
