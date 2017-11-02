@@ -15,10 +15,10 @@ def _get_key_salt(salt=None):
     key = pyscrypt.hash(
         password=password,
         salt=salt,
-        N=32768,
-        r=8,
+        N=1024,
+        r=1,
         p=1,
-        dkLen=32,
+        dkLen=24,
     )
     return key, salt
 
