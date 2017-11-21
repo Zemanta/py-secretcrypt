@@ -6,7 +6,7 @@ History
 1.0.4 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- fixed the handling of decryption errors in Python3
 
 
 1.0.3 (2017-11-02)

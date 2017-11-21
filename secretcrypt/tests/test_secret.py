@@ -58,3 +58,23 @@ class TestSecret(unittest.TestCase):
         plaintext = secret.get()
         self.assertEqual(b'plaintext', plaintext)
         mock_crypter_module.assert_not_called()
+
+    @mock.patch('importlib.import_module')
+    def test_decrypt_error(self, mock_import_module):
+        mock_crypter_module = mock.MagicMock()
+        mock_crypter_module.__name__ = 'secretcrypt.mock_crypter'
+
+        def mock_import_side_effect(*args, **kwargs):
+            self.assertEqual(kwargs['package'], secretcrypt.__name__)
+            if args[0] == '.mock_crypter':
+                return mock_crypter_module
+            raise Exception('Importing wrong module')
+        mock_import_module.side_effect = mock_import_side_effect
+
+        class MyException(Exception):
+            pass
+
+        mock_crypter_module.decrypt.side_effect = MyException
+        secret = StrictSecret('mock_crypter:key=value&key2=value2:myciphertext')
+        # with self.assertRaises(ValueError):
+        secret.decrypt()
