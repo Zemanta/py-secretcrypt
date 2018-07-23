@@ -5,7 +5,6 @@ py-secretcrypt
 |Codecov|
 
 .. raw:: html
-
    <a href="https://snyk.io/test/github/Zemanta/py-secretcrypt"><img src="https://snyk.io/test/github/Zemanta/py-secretcrypt/badge.svg" alt="Known Vulnerabilities" data-canonical-src="https://snyk.io/test/github/Zemanta/py-secretcrypt" style="max-width:100%;"></a>
 
 Utility for keeping your secrets encrypted. Also has a `Go
