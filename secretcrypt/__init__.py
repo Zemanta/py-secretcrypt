@@ -65,8 +65,8 @@ class StrictSecret(object):
         except Exception as e:
             exc_info = sys.exc_info()
             six.reraise(
+                ValueError,
                 ValueError('Invalid ciphertext "%s", error: %s' % (self._ciphertext, e)),
-                None,
                 exc_info[2]
             )
 
