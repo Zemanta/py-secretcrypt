@@ -1,5 +1,0 @@
-test:
-    override:
-        - 'python setup.py test'
-    post:
-        - bash <(curl -s https://codecov.io/bash)
