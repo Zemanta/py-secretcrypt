@@ -3,10 +3,10 @@
 History
 -------
 
-1.0.4 (unreleased)
+1.0.4 (2020-09-21)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- fixed reraise error in decrypt module
 
 
 1.0.3 (2017-11-02)
